@@ -1,0 +1,66 @@
+html {
+  overflow: hidden;
+  width: 100%;
+}
+body {
+  padding: 0 15px;
+  width: 100%;
+}
+.input_box {
+  margin: 0 20px;
+  width: calc(100% - 40px);
+  height: 30px;
+}
+.input_box #inputValue {
+  border: 1px solid #bbbbbb;
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+}
+#del_all_box {
+  cursor: pointer;
+  display: inline-block;
+  position: absolute;
+  margin-top: 20px;
+  right: 20px;
+  border: 1px solid #eeeeee;
+  padding: 0 10px;
+  color: #222222;
+  border-radius: 3px;
+}
+.del_checked_box {
+  cursor: pointer;
+  display: inline-block;
+  position: absolute;
+  margin-top: 20px;
+  left: 20px;
+  border: 1px solid #eeeeee;
+  padding: 0 10px;
+  color: #222222;
+  border-radius: 3px;
+}
+.todo_list_wrap ul{
+  padding-right: 10px;
+}
+.todo_list_wrap {
+  padding: 0 20px;
+}
+.todo_list_wrap ul li{
+  position: relative;
+  list-style: none;
+  line-height: 30px;
+}
+.todo_list_wrap ul li + li{
+  margin-top: 10px;
+}
+.todo_list_wrap ul li span{
+  cursor: pointer;
+  position: absolute;
+  right: 0;
+}
+input[type='checkbox'] {
+  margin-right: 10px;
+}
+#title {
+  margin-left: 20px;
+}
