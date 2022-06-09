@@ -13,25 +13,24 @@
 */
 window.onload = function () { 
   const makeBtn = document.querySelector('#inputValue')
-  const deleteBtn = document.querySelector('#delete');
   const deleteAllTarget = document.querySelector('#del_all_box');
+  const checkedClearBtn = document.querySelector('.del_checked_box')
 
-
-  console.log(deleteAllTarget)
-  console.log(deleteBtn)
-  console.log(makeBtn)
+  setTimeout(() => {
+    const deleteBtn = document.querySelector('#delete')
+    console.log(deleteBtn)
+  }, 100);
 
   makeBtn.addEventListener('keypress', function (event) {
     if (event.keyCode == 13) {
       makeTodo()
-    } else {
-      return false;
     }
   })
   
-  // deleteBtn.addEventListener('click', delTodo)
   deleteAllTarget.addEventListener('click', delTodoAll)
-  
+  checkedClearBtn.addEventListener('click', clearChecked)
+
+
   //리스트 만드는 함수
   function makeTodo() {
     const name = document.getElementById('inputValue').value;
@@ -43,20 +42,31 @@ window.onload = function () {
     !name || name[0] === ' ' ? null : listBox.appendChild(listLi); //input값이 스페이스바로 시작하면 리스트 생성 X
   }
   
-  
   //리스트 지우는 함수
   function delTodo(event) {
     const targetLi = event.target.parentNode
-  
+
     targetLi.parentNode.removeChild(targetLi);
   }
   
   //모든 리스트 지우는 함수
   function delTodoAll() {
     const listUl = document.querySelector('#todo_ul');
-  
+
     while (listUl.hasChildNodes()) {
       listUl.removeChild(listUl.firstChild)
     }
+  }
+
+  function clearChecked() {
+    const listUl = $('#todo_ul');
+    const listLi = $(listUl).children()
+    const checkedLi = $(listLi).children('input').prop("checked")
+
+    $(listLi).each(function () {
+      if (checkedLi) {
+        $($(listLi).children('input:checked')).parent().remove()
+      }
+    }) 
   }
 }
