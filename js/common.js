@@ -12,34 +12,30 @@
 
 */
 window.onload = function () { 
-  const makeBtn = document.querySelector('#inputValue')
+  const makeBtn = document.querySelector('#inputValue');
+  const deleteBtn = document.querySelector('#delete');
   const deleteAllTarget = document.querySelector('#del_all_box');
-  const checkedClearBtn = document.querySelector('.del_checked_box')
-
-  setTimeout(() => {
-    const deleteBtn = document.querySelector('#delete')
-    console.log(deleteBtn)
-  }, 100);
+  const checkedClearBtn = document.querySelector('.del_checked_box');
+  const listIndex = $('#todo_ul').children().index();
 
   makeBtn.addEventListener('keypress', function (event) {
     if (event.keyCode == 13) {
       makeTodo()
     }
   })
-  
   deleteAllTarget.addEventListener('click', delTodoAll)
   checkedClearBtn.addEventListener('click', clearChecked)
-
+  deleteBtn.addEventListener('click', delTodo)
+  
 
   //리스트 만드는 함수
   function makeTodo() {
     const name = document.getElementById('inputValue').value;
     const listBox = document.querySelector('ul');
     const listLi = document.createElement('li');
-
-    listLi.innerHTML = `<input type="checkbox"><label>${name}</label><span id="delete">x</span>`;
+    listLi.innerHTML = `<input type="checkbox"><label>${name}</label><span id="delete${listIndex}">x</span>`;
     document.getElementById('inputValue').value = null
-    !name || name[0] === ' ' ? null : listBox.appendChild(listLi); //input값이 스페이스바로 시작하면 리스트 생성 X
+    !name || name[0] === ' ' ? null : listBox.appendChild(listLi);
   }
   
   //리스트 지우는 함수
@@ -61,7 +57,7 @@ window.onload = function () {
   function clearChecked() {
     const listUl = $('#todo_ul');
     const listLi = $(listUl).children()
-    const checkedLi = $(listLi).children('input').prop("checked")
+    const checkedLi = $(listLi).children('input').is(':checked')
 
     $(listLi).each(function () {
       if (checkedLi) {
