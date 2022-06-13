@@ -12,11 +12,10 @@
 
 */
 window.onload = function () { 
+  const listBox = document.querySelector('ul');
   const makeBtn = document.querySelector('#inputValue');
-  const deleteBtn = document.querySelector('#delete');
   const deleteAllTarget = document.querySelector('#del_all_box');
   const checkedClearBtn = document.querySelector('.del_checked_box');
-  const listIndex = $('#todo_ul').children().index();
 
   makeBtn.addEventListener('keypress', function (event) {
     if (event.keyCode == 13) {
@@ -25,27 +24,26 @@ window.onload = function () {
   })
   deleteAllTarget.addEventListener('click', delTodoAll)
   checkedClearBtn.addEventListener('click', clearChecked)
-  deleteBtn.addEventListener('click', delTodo)
-  
 
-  //리스트 만드는 함수
+
+
+
+  //리스트 만들기
   function makeTodo() {
     const name = document.getElementById('inputValue').value;
-    const listBox = document.querySelector('ul');
     const listLi = document.createElement('li');
-    listLi.innerHTML = `<input type="checkbox"><label>${name}</label><span id="delete${listIndex}">x</span>`;
+    listLi.classList = 'todoLi'
+    listLi.innerHTML = `<input type="checkbox"><label>${name}</label><span class="delete">x</span>`;
     document.getElementById('inputValue').value = null
     !name || name[0] === ' ' ? null : listBox.appendChild(listLi);
-  }
-  
-  //리스트 지우는 함수
-  function delTodo(event) {
-    const targetLi = event.target.parentNode
 
-    targetLi.parentNode.removeChild(targetLi);
+    //리스트 지우기
+    $('li.todoLi > span.delete').on('click', function () {
+      $(this).parent().remove();
+    })
   }
-  
-  //모든 리스트 지우는 함수
+
+  //모든 리스트 지우기
   function delTodoAll() {
     const listUl = document.querySelector('#todo_ul');
 
@@ -54,6 +52,7 @@ window.onload = function () {
     }
   }
 
+  //체크 리스트 지우기
   function clearChecked() {
     const listUl = $('#todo_ul');
     const listLi = $(listUl).children()
@@ -63,6 +62,6 @@ window.onload = function () {
       if (checkedLi) {
         $($(listLi).children('input:checked')).parent().remove()
       }
-    }) 
+    })
   }
 }
