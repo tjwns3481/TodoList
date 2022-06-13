@@ -25,9 +25,6 @@ window.onload = function () {
   deleteAllTarget.addEventListener('click', delTodoAll)
   checkedClearBtn.addEventListener('click', clearChecked)
 
-
-
-
   //리스트 만들기
   function makeTodo() {
     const name = document.getElementById('inputValue').value;
