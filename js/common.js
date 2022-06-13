@@ -12,6 +12,7 @@
 
 */
 window.onload = function () { 
+  let listIndex = 0;
   const listBox = document.querySelector('ul');
   const makeBtn = document.querySelector('#inputValue');
   const deleteAllTarget = document.querySelector('#del_all_box');
@@ -29,15 +30,28 @@ window.onload = function () {
   function makeTodo() {
     const name = document.getElementById('inputValue').value;
     const listLi = document.createElement('li');
-    listLi.classList = 'todoLi'
-    listLi.innerHTML = `<input type="checkbox"><label>${name}</label><span class="delete">x</span>`;
-    document.getElementById('inputValue').value = null
-    !name || name[0] === ' ' ? null : listBox.appendChild(listLi);
+    const delBtn = document.createElement('span')
 
-    //리스트 지우기
-    $('li.todoLi > span.delete').on('click', function () {
-      $(this).parent().remove();
+    delBtn.id = 'delete'+listIndex
+    listLi.innerHTML = `<input type="checkbox"><label>${name}</label>`;
+    delBtn.innerHTML = `삭제`
+    document.getElementById('inputValue').value = null
+    !name || name[0] === ' ' ? null : listBox.appendChild(listLi) && listLi.appendChild(delBtn);
+
+    delBtn.addEventListener('click',function() {
+      delTodo(listLi)
     })
+
+    listIndex++;
+    //리스트 지우기
+    // $('li.todoLi > span.delete').on('click', function () {
+    //   $(this).parent().remove();
+    // })
+  }
+
+  //리스트 지우기
+  function delTodo(element) {
+    document.getElementById('todo_ul').removeChild(element)
   }
 
   //모든 리스트 지우기
