@@ -39,21 +39,26 @@ body {
   color: #222222;
   border-radius: 3px;
 }
-.todo_list_wrap ul{
+.todo_list_wrap ul,
+.done_list_wrap ul{
   padding-right: 10px;
 }
-.todo_list_wrap {
+.todo_list_wrap, 
+.done_list_wrap {
   padding: 0 20px;
 }
-.todo_list_wrap ul li{
+.todo_list_wrap ul li,
+.done_list_wrap ul li{
   position: relative;
   list-style: none;
   line-height: 30px;
 }
-.todo_list_wrap ul li + li{
+.todo_list_wrap ul li + li,
+.done_list_wrap ul li + li{
   margin-top: 10px;
 }
-.todo_list_wrap ul li span{
+.todo_list_wrap ul li span,
+.done_list_wrap ul li span{
   cursor: pointer;
   position: absolute;
   right: 0;
