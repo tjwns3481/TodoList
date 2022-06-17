@@ -1,5 +1,4 @@
 /* TODO LIST
-
 1. 입력한 내용이 아래 목록에 표출(항목 추가 기능)
 2. 항목 삭제 기능
 3. 선택 목록 삭제하기
@@ -22,31 +21,30 @@ window.onload = function () {
   const checkedClearBtn = document.querySelector('.del_checked_box');
 
   makeBtn.addEventListener('keypress', function (event) {
-    if (event.keyCode == 13) {
-      makeTodo()
-    }
+    if (event.keyCode == 13) { makeTodo(checkedClearBtn) }
   })
-  deleteAllTarget.addEventListener('click', delTodoAll)
-  checkedClearBtn.addEventListener('click', clearChecked)
+  deleteAllTarget.addEventListener('click', function () { delTodoAll() })
 
   //리스트 만들기
-  function makeTodo() {
+  function makeTodo(checkedClearBtn) {
     const listLi = document.createElement('li')
-    const name = document.querySelector('#inputValue').value;
     const delBtn = document.createElement('span')
-    const checkedInput = document.querySelector('input')
-    const isChecked = checkedInput.getAttribute('checked')
-    const labelId = Date.now();
-
-    console.log(isChecked)
-    listLi.innerHTML = `<input type="checkbox"><label id="${labelId}">${name}</label>`;
+    const checkBtn = document.createElement('input')
+    const label = document.createElement('label')
+    const name = document.querySelector('#inputValue').value;
+    
+    checkBtn.type = 'checkbox'
+    label.innerHTML = `${name}`
     delBtn.innerHTML = `삭제`
     document.querySelector('#inputValue').value = null
-    !name || name[0] === ' ' ? null : listBox.appendChild(listLi) && listLi.appendChild(delBtn);
+    !name || name[0] === ' ' ? null :  listBox.appendChild(listLi) && listLi.appendChild(checkBtn) && listLi.appendChild(label) && listLi.appendChild(delBtn);
 
-    delBtn.addEventListener('click', function () {
-      delTodo(listLi)
-    })
+    checkedClearBtn.addEventListener('click', function () { clearChecked() })
+    checkBtn.addEventListener('click', function () { doneTodo(checkBtn, listLi, delBtn) })
+    delBtn.addEventListener('click', function () { delTodo(listLi) })
+    
+    
+
   }
 
   //리스트 지우기
@@ -57,26 +55,44 @@ window.onload = function () {
   //모든 리스트 지우기
   function delTodoAll() {
     const listUl = document.querySelector('#todo_ul');
+    const listUlLength = listUl.children.length;
 
-    while (listUl.hasChildNodes()) {
-      listUl.removeChild(listUl.firstChild)
+    for (let i = 0; i < listUlLength; i++) {
+      listUl.removeChild(listUl.firstElementChild)
     }
   }
 
-  //항목 완료 처리 
+  //항목 완료 처리
+  function doneTodo(element, listLi, delBtn) {
+    const listUl = document.querySelector('#todo_ul');
+    const doneUl = document.querySelector('#done_ul')
 
+    if (element.checked) {
+      console.log(listLi)
+      listLi.style.cssText= `color: #aaaaaa; text-decoration: line-through; `
+      listUl.removeChild(listLi)
+      doneUl.appendChild(listLi)
+    } else {
+      listLi.style.cssText= `color: #555555; text-decoration: none;`
+      doneUl.removeChild(listLi)
+      listUl.appendChild(listLi)
+    }
 
-  //체크 리스트 지우기
+    delBtn.addEventListener('click', function () { delDone(listLi) })
+  }
+
+  //완료된 리스트 지우기
+  function delDone(listLi) {
+    document.querySelector('#done_ul').removeChild(listLi)
+  }
+
+  //완료된 리스트 전부 지우기
   function clearChecked() {
-    // const listUl = $('#todo_ul');
-    // const listLi = $(listUl).children()
-    // const checkedLi = $(listLi).children('input').is(':checked')
+    const doneUl = document.querySelector('#done_ul')
+    const doneUlLength = doneUl.children.length;
 
-
-    // $(listLi).each(function () {
-    //   if (checkedLi) {
-    //     $($(listLi).children('input:checked')).parent().remove()
-    //   }
-    // })
+    for (let i = 0; i < doneUlLength; i++) {
+      doneUl.removeChild(doneUl.firstElementChild)
+    }
   }
 }
