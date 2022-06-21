@@ -30,23 +30,45 @@ window.onload = function () {
     const listLi = document.createElement('li')
     const delBtn = document.createElement('span')
     const checkBtn = document.createElement('input')
+    const inputBtn = document.createElement('input');
     const label = document.createElement('label')
-    const name = document.querySelector('#inputValue').value;
+    let name = document.querySelector('#inputValue').value;
     
     checkBtn.type = 'checkbox'
     label.innerHTML = `${name}`
+    label.id = 'listLabel'
     delBtn.innerHTML = `삭제`
     document.querySelector('#inputValue').value = null
-    !name || name[0] === ' ' ? null :  listBox.appendChild(listLi) && listLi.appendChild(checkBtn) && listLi.appendChild(label) && listLi.appendChild(delBtn);
+    !name || name[0] === ' ' ? null :
+      listBox.appendChild(listLi)
+      && listLi.appendChild(checkBtn)
+      && listLi.appendChild(label)
+      && listLi.appendChild(delBtn);
 
     checkedClearBtn.addEventListener('click', function () { clearChecked() })
     checkBtn.addEventListener('click', function () { doneTodo(checkBtn, listLi, delBtn) })
     delBtn.addEventListener('click', function () { delTodo(listLi) })
-    
-    
-
+    label.addEventListener('dblclick', function () { todoUpdate(listLi, label, inputBtn) })
   }
 
+  //리스트 수정하기
+  function todoUpdate(listLi, label, inputBtn) {
+    inputBtn.value = null;
+    inputBtn.id = 'updateText';
+    listLi.removeChild(label);
+    listLi.appendChild(inputBtn);
+
+    inputBtn.addEventListener('keypress', function (e) {
+      let values = inputBtn.value;
+
+      if (e.key == 'Enter') {
+        label.innerHTML = `${values}`
+        listLi.removeChild(inputBtn)
+        listLi.appendChild(label)
+      }
+    })
+  }
+  
   //리스트 지우기
   function delTodo(element) {
     document.querySelector('#todo_ul').removeChild(element)
@@ -61,6 +83,8 @@ window.onload = function () {
       listUl.removeChild(listUl.firstElementChild)
     }
   }
+  
+
 
   //항목 완료 처리
   function doneTodo(element, listLi, delBtn) {
@@ -69,11 +93,11 @@ window.onload = function () {
 
     if (element.checked) {
       console.log(listLi)
-      listLi.style.cssText= `color: #aaaaaa; text-decoration: line-through; `
+      listLi.style.cssText = `color: #aaaaaa; text-decoration: line-through;`
       listUl.removeChild(listLi)
       doneUl.appendChild(listLi)
     } else {
-      listLi.style.cssText= `color: #555555; text-decoration: none;`
+      listLi.style.cssText = `color: #555555; text-decoration: none;`
       doneUl.removeChild(listLi)
       listUl.appendChild(listLi)
     }

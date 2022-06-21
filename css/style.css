@@ -63,9 +63,16 @@ body {
   position: absolute;
   right: 0;
 }
+#updateText {
+  width: calc(100% - 65px);
+}
 input[type='checkbox'] {
   margin-right: 10px;
 }
 #title {
   margin-left: 20px;
+}
+#listLabel {
+  display: inline-block;
+  width: calc(100% - 60%);
 }
