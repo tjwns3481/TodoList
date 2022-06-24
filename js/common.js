@@ -67,6 +67,17 @@ window.onload = function () {
         listLi.appendChild(label)
       }
     })
+
+    listIndex++;
+    //리스트 지우기
+    // $('li.todoLi > span.delete').on('click', function () {
+    //   $(this).parent().remove();
+    // })
+  }
+
+  //리스트 지우기
+  function delTodo(element) {
+    document.getElementById('todo_ul').removeChild(element)
   }
   
   //리스트 지우기
