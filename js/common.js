@@ -21,27 +21,26 @@
 4. done list 삭제시 생기는 에러 확인
 5. 수정 UI 추가하기(더블클릭시 수정이 가능합니다 문구 넣기 or 수정 버튼 추가)
 */
-const listBox = document.querySelector('#todo_ul');
-const makeBtn = document.querySelector('#inputValue');
-const deleteAllTarget = document.querySelector('#del_all_box');
-const checkedClearBtn = document.querySelector('.del_checked_box');
+let listBox = document.querySelector('#todo_ul');
+let makeBtn = document.querySelector('#inputValue');
+let deleteAllTarget = document.querySelector('#del_all_box');
+let checkedClearBtn = document.querySelector('.del_checked_box');
 
 window.onload = function () { 
-  makeBtn.addEventListener('keypress', function (e) {
-    if (e.key == 'Enter') { makeTodo(checkedClearBtn) }
-  })
+  makeBtn.addEventListener('keypress', function (e) {if (e.key == 'Enter') { makeTodo(checkedClearBtn) }})
   deleteAllTarget.addEventListener('click', function () { delTodoAll() })
   checkedClearBtn.addEventListener('click', function () { clearChecked() })
 }
 
-//리스트 만들기
-function makeTodo() {
+
+function makeTodo() { //리스트 만들기
   let name = document.querySelector('#inputValue').value;
-  const listLi = document.createElement('li');
-  const inputBtn = document.createElement('input');
-  const checkBtn = document.createElement('input'); checkBtn.type = 'checkbox';
-  const label = document.createElement('label'); label.innerHTML = `${name}`; label.id = 'listLabel';
-  const delBtn = document.createElement('span'); delBtn.innerHTML = `삭제`;
+  let listLi = document.createElement('li');
+  let inputBtn = document.createElement('input');
+  let checkBtn = document.createElement('input'); checkBtn.type = 'checkbox';
+  let label = document.createElement('label'); label.innerHTML = `${name}`; label.id = 'listLabel';
+  let updateBtn = document.createElement('span'); updateBtn.innerHTML = `수정`; updateBtn.id = `listUpdateBtn`
+  let delBtn = document.createElement('span'); delBtn.innerHTML = `삭제`;
   
   document.querySelector('#inputValue').value = null;
   if (!name || name[0] === ' ') {
@@ -51,33 +50,33 @@ function makeTodo() {
     listLi.appendChild(checkBtn);
     listLi.appendChild(label);
     listLi.appendChild(delBtn);
+    listLi.appendChild(updateBtn)
   }
 
-  checkBtn.addEventListener('click', function () { doneTodo(checkBtn, listLi, delBtn) })
-  delBtn.addEventListener('click', function () { delTodo(listLi) })
-  label.addEventListener('dblclick', function () { todoUpdate(listLi, label, inputBtn) })
+  checkBtn.addEventListener('click', function () { doneTodo(this) })
+  delBtn.addEventListener('click', function () { delTodo(this) })
+  updateBtn.addEventListener('click', function () { todoUpdate(label, inputBtn) })
 }
 
-//항목 완료 처리
-function doneTodo(element, listLi, delBtn) {
-  const listUl = document.querySelector('#todo_ul');
-  const doneUl = document.querySelector('#done_ul')
 
-  if (element.checked) {
-    listLi.style.cssText = `color: #aaaaaa; text-decoration: line-through;`
+function doneTodo(checkBtn) { //항목 완료 처리
+  let listUl = document.querySelector('#todo_ul');
+  let doneUl = document.querySelector('#done_ul')
+  let listLi = checkBtn.parentNode;
+
+  if (checkBtn.checked) {
+    listLi.style.cssText = `color: #aaaaaa;`
     listUl.removeChild(listLi)
     doneUl.appendChild(listLi)
   } else {
-    listLi.style.cssText = `color: #555555; text-decoration: none;`
+    listLi.style.cssText = `color: #555555;`
     doneUl.removeChild(listLi)
     listUl.appendChild(listLi)
   }
-
-  delBtn.addEventListener('click', function () { delDone(listLi) })
 }
 
-//리스트 수정하기
-function todoUpdate(listLi, label, inputBtn) {
+function todoUpdate(label, inputBtn) { //리스트 수정하기
+  let listLi = label.parentNode;
   inputBtn.value = null;
   inputBtn.id = 'updateText';
   listLi.removeChild(label);
@@ -94,30 +93,22 @@ function todoUpdate(listLi, label, inputBtn) {
   })
 }
 
-//완료된 리스트 전부 지우기
-function clearChecked() {
-  const doneUl = document.querySelector('#done_ul')
-  const doneUlLength = doneUl.children.length;
+function clearChecked() { //완료된 리스트 전부 지우기
+  let doneUl = document.querySelector('#done_ul')
+  let doneUlLength = doneUl.children.length;
 
   for (let i = 0; i < doneUlLength; i++) {
     doneUl.removeChild(doneUl.firstElementChild)
   }
 }
 
-//리스트 지우기
-function delTodo(element) {
-  document.querySelector('#todo_ul').removeChild(element)
+function delTodo(target) { //리스트 지우기
+  target.parentNode.remove();
 }
 
-//완료된 리스트 지우기
-function delDone(listLi) {
-  document.querySelector('#done_ul').removeChild(listLi)
-}
-
-//모든 리스트 지우기
-function delTodoAll() {
-  const listUl = document.querySelector('#todo_ul');
-  const listUlLength = listUl.children.length;
+function delTodoAll() { //모든 리스트 지우기
+  let listUl = document.querySelector('#todo_ul');
+  let listUlLength = listUl.children.length;
 
   for (let i = 0; i < listUlLength; i++) {
     listUl.removeChild(listUl.firstElementChild)

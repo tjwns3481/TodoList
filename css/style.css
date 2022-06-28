@@ -64,7 +64,7 @@ body {
   right: 0;
 }
 #updateText {
-  width: calc(100% - 65px);
+  width: calc(100% - 120px);
 }
 input[type='checkbox'] {
   margin-right: 10px;
@@ -75,4 +75,7 @@ input[type='checkbox'] {
 #listLabel {
   display: inline-block;
   width: calc(100% - 60%);
+}
+#listUpdateBtn {
+  margin-right: 45px;
 }
