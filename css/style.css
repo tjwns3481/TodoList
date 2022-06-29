@@ -72,10 +72,15 @@ input[type='checkbox'] {
 #title {
   margin-left: 20px;
 }
-#listLabel {
+.listLabel {
   display: inline-block;
-  width: calc(100% - 60%);
+  width: calc(100% - 120px);
+  height: 30px;
+  overflow: hidden;
 }
 #listUpdateBtn {
   margin-right: 45px;
+}
+input[type='checkbox'] {
+  vertical-align: super;
 }
