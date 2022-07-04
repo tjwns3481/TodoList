@@ -3,27 +3,43 @@ const doneUl = document.querySelector('#done_ul')
 const makeBtn = document.querySelector('#inputValue');
 const deleteAllTarget = document.querySelector('#del_all_box');
 const checkedClearBtn = document.querySelector('.del_checked_box');
-let localArr = []
-loadList();
+let listIndex = 1;
+let localArr = [];
+let orgTodo = loadList(); //웹스토리지에 담긴 투두 배열값
 
-makeBtn.addEventListener('keypress', function (e) {if (e.key == 'Enter') { makeTodo(checkedClearBtn) }})
+makeBtn.addEventListener('keypress', function (e) {if (e.key == 'Enter') { makeTodo() }})
 deleteAllTarget.addEventListener('click', function () { delTodoAll(listUl) })
 checkedClearBtn.addEventListener('click', function () { delTodoAll(doneUl) })
 
-function makeTodo() { //리스트 만들기
-  let name = makeBtn.value.trim();
-  const listLi = document.createElement('li');
+if (orgTodo.length > 0) {
+  getTodoList();
+}
+function getTodoList() {
+  orgTodo.forEach((item) => {
+    makeTodo(item)
+  });
+}
+
+function makeTodo(item) { //리스트 만들기
+  let name;
+  if (item === undefined || item === null) {
+    name = makeBtn.value.trim();
+  } else {
+    name = item;
+  }
+  const listLi = document.createElement('li'); listLi.id = `index-${listIndex}`;
   const inputBtn = document.createElement('input');
   const checkBtn = document.createElement('input'); checkBtn.type = 'checkbox';
   const delBtn = document.createElement('span'); delBtn.innerHTML = `삭제`;
   const updateBtn = document.createElement('span'); updateBtn.innerHTML = `수정`; updateBtn.id = `listUpdateBtn`
   const label = document.createElement('label'); label.innerHTML = name; label.classList = 'listLabel';
+  
 
   localArr.push(name);
-  console.log(localArr)
+  console.log(localArr);
   document.querySelector('#inputValue').value = null;
   !name ? null : addList();
-  loadList()
+
   saveStorage();
   inValue();
   
@@ -42,7 +58,17 @@ function makeTodo() { //리스트 만들기
   checkBtn.addEventListener('click', doneTodo);
   delBtn.addEventListener('click', function () { delTodo(this) });
   updateBtn.addEventListener('click', function () { todoUpdate(label, inputBtn) });
+
+  console.log()
+
+  // getLabel(listIndex)
+  listIndex++;
 }
+
+// function getLabel(num) {
+//   const target = document.querySelector(`#index-${num}`).children[1].innerText;
+//   console.log(target)
+// }
 
 function saveStorage() {
   localStorage.setItem('todos', JSON.stringify(localArr))
@@ -50,19 +76,17 @@ function saveStorage() {
 
 function loadList() {
   let arrTodos = JSON.parse(localStorage.getItem('todos'));
-
-  arrTodos.forEach(function () {
-    if (makeBtn != null) {
-    }
-  })
+  return arrTodos || [];
 }
 
 function delTodo(target) { //리스트 지우기
   target.parentNode.remove();
+  localStorage.removeItem('todos')
 }
 
 function delTodoAll(target) { //모든 리스트 지우기
   target.innerHTML = '';
+  localStorage.clear();
   }
 
 function doneTodo(e) { //항목 완료 처리
