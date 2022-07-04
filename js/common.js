@@ -13,15 +13,17 @@ function makeTodo() { //리스트 만들기
   const listLi = document.createElement('li');
   const inputBtn = document.createElement('input');
   const checkBtn = document.createElement('input'); checkBtn.type = 'checkbox';
-  const label = document.createElement('label'); label.innerHTML = name; label.classList = 'listLabel';
-  const updateBtn = document.createElement('span'); updateBtn.innerHTML = `수정`; updateBtn.id = `listUpdateBtn`
   const delBtn = document.createElement('span'); delBtn.innerHTML = `삭제`;
+  const updateBtn = document.createElement('span'); updateBtn.innerHTML = `수정`; updateBtn.id = `listUpdateBtn`
+  const label = document.createElement('label'); label.innerHTML = name; label.classList = 'listLabel';
+
 
   document.querySelector('#inputValue').value = null;
   !name ? null : addList();
   let localArr = []
   const localData = JSON.parse(localStorage.getItem('todos'))
   
+  localStorage.setItem('todos',JSON.stringify(name))
   inValue();
   
   function inValue() {
@@ -29,6 +31,7 @@ function makeTodo() { //리스트 만들기
   }
 
   function addList() {
+
     listUl.appendChild(listLi);
     listLi.appendChild(checkBtn);
     listLi.appendChild(label);
