@@ -3,10 +3,15 @@ const doneUl = document.querySelector('#done_ul')
 const makeBtn = document.querySelector('#inputValue');
 const deleteAllTarget = document.querySelector('#del_all_box');
 const checkedClearBtn = document.querySelector('.del_checked_box');
+let localArr = []
 
 makeBtn.addEventListener('keypress', function (e) {if (e.key == 'Enter') { makeTodo(checkedClearBtn) }})
 deleteAllTarget.addEventListener('click', function () { delTodoAll(listUl) })
 checkedClearBtn.addEventListener('click', function () { delTodoAll(doneUl) })
+localArr.forEach(function() {
+
+})
+
 
 function makeTodo() { //리스트 만들기
   const name = document.querySelector('#inputValue').value.trim();
@@ -17,13 +22,12 @@ function makeTodo() { //리스트 만들기
   const updateBtn = document.createElement('span'); updateBtn.innerHTML = `수정`; updateBtn.id = `listUpdateBtn`
   const label = document.createElement('label'); label.innerHTML = name; label.classList = 'listLabel';
 
-
+  localArr.push(name);
+  console.log(localArr)
   document.querySelector('#inputValue').value = null;
   !name ? null : addList();
-  let localArr = []
-  const localData = JSON.parse(localStorage.getItem('todos'))
   
-  localStorage.setItem('todos',JSON.stringify(name))
+  saveStorage();
   inValue();
   
   function inValue() {
@@ -42,6 +46,10 @@ function makeTodo() { //리스트 만들기
   checkBtn.addEventListener('click', doneTodo);
   delBtn.addEventListener('click', function () { delTodo(this) });
   updateBtn.addEventListener('click', function () { todoUpdate(label, inputBtn) });
+}
+
+function saveStorage() {
+  localStorage.setItem('todos', JSON.stringify(localArr))
 }
 
 function delTodo(target) { //리스트 지우기
