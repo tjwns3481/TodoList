@@ -53,6 +53,7 @@ function loadList() {
 
   arrTodos.forEach(function () {
     if (localStorage != null) {
+      
     }
   })
 }
