@@ -8,8 +8,8 @@ let localArr = []
 makeBtn.addEventListener('keypress', function (e) {if (e.key == 'Enter') { makeTodo(checkedClearBtn) }})
 deleteAllTarget.addEventListener('click', function () { delTodoAll(listUl) })
 checkedClearBtn.addEventListener('click', function () { delTodoAll(doneUl) })
-localArr.forEach(function() {
-
+localArr.forEach(function () {
+  
 })
 
 
