@@ -11,7 +11,7 @@ deleteAllTarget.addEventListener('click', function () { delTodoAll(listUl) })
 checkedClearBtn.addEventListener('click', function () { delTodoAll(doneUl) })
 
 function makeTodo() { //리스트 만들기
-  const name = document.querySelector('#inputValue').value.trim();
+  let name = makeBtn.value.trim();
   const listLi = document.createElement('li');
   const inputBtn = document.createElement('input');
   const checkBtn = document.createElement('input'); checkBtn.type = 'checkbox';
@@ -23,7 +23,7 @@ function makeTodo() { //리스트 만들기
   console.log(localArr)
   document.querySelector('#inputValue').value = null;
   !name ? null : addList();
-  
+  loadList()
   saveStorage();
   inValue();
   
@@ -52,8 +52,7 @@ function loadList() {
   let arrTodos = JSON.parse(localStorage.getItem('todos'));
 
   arrTodos.forEach(function () {
-    if (localStorage != null) {
-      
+    if (makeBtn != null) {
     }
   })
 }
