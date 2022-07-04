@@ -4,14 +4,11 @@ const makeBtn = document.querySelector('#inputValue');
 const deleteAllTarget = document.querySelector('#del_all_box');
 const checkedClearBtn = document.querySelector('.del_checked_box');
 let localArr = []
+loadList();
 
 makeBtn.addEventListener('keypress', function (e) {if (e.key == 'Enter') { makeTodo(checkedClearBtn) }})
 deleteAllTarget.addEventListener('click', function () { delTodoAll(listUl) })
 checkedClearBtn.addEventListener('click', function () { delTodoAll(doneUl) })
-localArr.forEach(function () {
-  
-})
-
 
 function makeTodo() { //리스트 만들기
   const name = document.querySelector('#inputValue').value.trim();
@@ -35,7 +32,6 @@ function makeTodo() { //리스트 만들기
   }
 
   function addList() {
-
     listUl.appendChild(listLi);
     listLi.appendChild(checkBtn);
     listLi.appendChild(label);
@@ -50,6 +46,15 @@ function makeTodo() { //리스트 만들기
 
 function saveStorage() {
   localStorage.setItem('todos', JSON.stringify(localArr))
+}
+
+function loadList() {
+  let arrTodos = JSON.parse(localStorage.getItem('todos'));
+
+  arrTodos.forEach(function () {
+    if (localStorage != null) {
+    }
+  })
 }
 
 function delTodo(target) { //리스트 지우기
