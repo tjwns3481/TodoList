@@ -4,7 +4,7 @@ const doneUl = document.querySelector('#done_ul');
 const makeBtn = document.querySelector('#inputValue');
 const deleteAllTarget = document.querySelector('#del_all_box');
 const checkedClearBtn = document.querySelector('.del_checked_box');
-let listIndex = 1;
+let listIndex = 0;
 let localArr = [];
 let doneArr = [];
 let orgTodo = loadList('todos');
@@ -81,9 +81,12 @@ function makeDone(item) {
   
   checkBtn.checked = true;
   listLi.style.cssText = `color: #aaaaaa;`
+
+
+  let temp_index = listIndex;
   checkBtn.addEventListener('click', doneTodo);
   delBtn.addEventListener('click', function () { delTodo(this) });
-  updateBtn.addEventListener('click', function () { todoUpdate(label, inputBtn) });
+  updateBtn.addEventListener('click', function () { todoUpdate(label, inputBtn, temp_index) });
 
   listIndex++;
 }
@@ -112,8 +115,6 @@ function makeTodo(item) { //리스트 만들기
     addList()
   }
   
-  
-
   saveStorage();
   inValue();
   
@@ -128,10 +129,10 @@ function makeTodo(item) { //리스트 만들기
     listLi.appendChild(delBtn);
     listLi.appendChild(updateBtn);
   }
-
+  let temp_index = listIndex;
   checkBtn.addEventListener('click', doneTodo);
   delBtn.addEventListener('click', function () { delTodo(this) });
-  updateBtn.addEventListener('click', function () { todoUpdate(label, inputBtn) });
+  updateBtn.addEventListener('click', function () { todoUpdate(label, inputBtn, temp_index) });
 
   listIndex++;
 }
@@ -148,7 +149,6 @@ function loadList(target) {
 
 function delTodo(target) { //리스트 지우기
   const li = target.parentNode;
-  console.log(li.children[1].innerText)
   li.remove();
 
   delStorage(localArr);
@@ -201,18 +201,19 @@ function doneTodo(e) { //항목 완료 처리
   saveStorage();
 }
 
-function todoUpdate(label, inputBtn) { //리스트 수정하기
+function todoUpdate(label, inputBtn, temp_index) { //리스트 수정하기
   inputBtn.id = 'updateText';
   label.before(inputBtn);
   label.remove();
-
   inputBtn.addEventListener('keypress', function (e) {
     const values = inputBtn.value;
-
+    
     if (e.key == 'Enter') {
       label.innerHTML = values
       inputBtn.after(label)
       inputBtn.remove();
+      localArr[temp_index] = values;
+      saveStorage();
     }
   })
 }
