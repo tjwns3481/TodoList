@@ -7,10 +7,14 @@ const checkedClearBtn = document.querySelector('.del_checked_box');
 let listIndex = 1;
 let localArr = [];
 let doneArr = [];
-let orgTodo = loadList('todos'); //웹스토리지에 담긴 투두 배열값
-let orgDone = loadList('dones'); //웹스토리지에 담긴 완료된 투두 배열값
+let orgTodo = loadList('todos');
+let orgDone = loadList('dones');
 
-makeBtn.addEventListener('keypress', function (e) {if (e.key == 'Enter') { makeTodo() }})
+makeBtn.addEventListener('keypress', function (e) {
+  if(e.key == 'Enter')  {
+    makeTodo();
+  }
+})
 deleteAllTarget.addEventListener('click', function () { delTodoAll(listUl,'todos') })
 checkedClearBtn.addEventListener('click', function () { delTodoAll(doneUl, 'dones') })
 
@@ -49,8 +53,16 @@ function makeDone(item) {
   const label = document.createElement('label'); label.innerHTML = name; label.classList = 'listLabel';
 
   document.querySelector('#inputValue').value = null;
-  !name ? null : addList();
-  doneArr.push(name);
+  console.log(name)
+
+  if (!name) {
+    return null
+  } else {
+    doneArr.push(name);
+    addList()
+  }
+
+  
 
   saveStorage();
   inValue();
@@ -66,6 +78,7 @@ function makeDone(item) {
     listLi.appendChild(delBtn);
     listLi.appendChild(updateBtn);
   }
+  
   checkBtn.checked = true;
   listLi.style.cssText = `color: #aaaaaa;`
   checkBtn.addEventListener('click', doneTodo);
@@ -91,9 +104,15 @@ function makeTodo(item) { //리스트 만들기
   const label = document.createElement('label'); label.innerHTML = name; label.classList = 'listLabel';
 
   document.querySelector('#inputValue').value = null;
-  !name ? null : addList();
+
+  if (!name) {
+    return null
+  } else {
+    localArr.push(name);
+    addList()
+  }
   
-  localArr.push(name);
+  
 
   saveStorage();
   inValue();
