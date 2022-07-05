@@ -12,7 +12,7 @@ let orgDone = loadList('dones'); //웹스토리지에 담긴 완료된 투두 �
 
 makeBtn.addEventListener('keypress', function (e) {if (e.key == 'Enter') { makeTodo() }})
 deleteAllTarget.addEventListener('click', function () { delTodoAll(listUl,'todos') })
-checkedClearBtn.addEventListener('click', function () { delTodoAll(doneUl,'dones') })
+checkedClearBtn.addEventListener('click', function () { delTodoAll(doneUl, 'dones') })
 
 if (orgTodo.length > 0) {
   getTodoList();
@@ -34,7 +34,7 @@ function getDoneList() {
   });
 }
 
-function makeDone(item) { //리스트 만들기
+function makeDone(item) {
   let name;
   if (item === undefined || item === null) {
     name = makeBtn.value.trim();
@@ -49,8 +49,8 @@ function makeDone(item) { //리스트 만들기
   const label = document.createElement('label'); label.innerHTML = name; label.classList = 'listLabel';
 
   document.querySelector('#inputValue').value = null;
-  
   !name ? null : addList();
+  doneArr.push(name);
 
   saveStorage();
   inValue();
@@ -72,7 +72,6 @@ function makeDone(item) { //리스트 만들기
   delBtn.addEventListener('click', function () { delTodo(this) });
   updateBtn.addEventListener('click', function () { todoUpdate(label, inputBtn) });
 
-  getLabel(listIndex);
   listIndex++;
 }
 
@@ -83,6 +82,7 @@ function makeTodo(item) { //리스트 만들기
   } else {
     name = item;
   }
+
   const listLi = document.createElement('li'); listLi.id = `index-${listIndex}`;
   const inputBtn = document.createElement('input');
   const checkBtn = document.createElement('input'); checkBtn.type = 'checkbox';
@@ -92,6 +92,7 @@ function makeTodo(item) { //리스트 만들기
 
   document.querySelector('#inputValue').value = null;
   !name ? null : addList();
+  
   localArr.push(name);
 
   saveStorage();
@@ -113,13 +114,7 @@ function makeTodo(item) { //리스트 만들기
   delBtn.addEventListener('click', function () { delTodo(this) });
   updateBtn.addEventListener('click', function () { todoUpdate(label, inputBtn) });
 
-  getLabel(listIndex);
   listIndex++;
-}
-
-function getLabel(num) {
-  const target = document.querySelector(`#index-${num}`).children[1].innerText;
-  console.log(target)
 }
 
 function saveStorage() {
@@ -133,8 +128,24 @@ function loadList(target) {
 }
 
 function delTodo(target) { //리스트 지우기
-  target.parentNode.remove();
+  const li = target.parentNode;
+  console.log(li.children[1].innerText)
+  li.remove();
+
+  delStorage(localArr);
+  delStorage(doneArr);
+
+  function delStorage(target) {
+    for(let i = 0; i < target.length; i++) {
+      if(target[i] === li.children[1].innerText)  {
+        target.splice(i, 1);
+        i--;
+      }
+    }
+  }
+  saveStorage();
 }
+
 
 function delTodoAll(target, StorageKey) { //모든 리스트 지우기
   target.innerHTML = '';
@@ -151,8 +162,6 @@ function doneTodo(e) { //항목 완료 처리
     doneUl.appendChild(targetParent)
     doneArr.push(targetParent.children[1].innerText);
     delStorage(localArr);
-    console.log(targetParent.id)
-    saveStorage();
   } else {
     targetParent.style.cssText = `color: #555555;`
     targetParent.classList.remove('done')
@@ -160,7 +169,6 @@ function doneTodo(e) { //항목 완료 처리
     listUl.appendChild(targetParent)
     localArr.push(targetParent.children[1].innerText)
     delStorage(doneArr);
-    saveStorage();
   }
 
   function delStorage(target) {
