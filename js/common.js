@@ -1,5 +1,5 @@
 const listUl = document.querySelector('#todo_ul');
-const doneUl = document.querySelector('#done_ul')
+const doneUl = document.querySelector('#done_ul');
 const makeBtn = document.querySelector('#inputValue');
 const deleteAllTarget = document.querySelector('#del_all_box');
 const checkedClearBtn = document.querySelector('.del_checked_box');
@@ -14,6 +14,7 @@ checkedClearBtn.addEventListener('click', function () { delTodoAll(doneUl) })
 if (orgTodo.length > 0) {
   getTodoList();
 }
+
 function getTodoList() {
   orgTodo.forEach((item) => {
     makeTodo(item)
@@ -33,12 +34,10 @@ function makeTodo(item) { //리스트 만들기
   const delBtn = document.createElement('span'); delBtn.innerHTML = `삭제`;
   const updateBtn = document.createElement('span'); updateBtn.innerHTML = `수정`; updateBtn.id = `listUpdateBtn`
   const label = document.createElement('label'); label.innerHTML = name; label.classList = 'listLabel';
-  
 
-  localArr.push(name);
-  console.log(localArr);
   document.querySelector('#inputValue').value = null;
   !name ? null : addList();
+  localArr.push(name);
 
   saveStorage();
   inValue();
@@ -58,8 +57,6 @@ function makeTodo(item) { //리스트 만들기
   checkBtn.addEventListener('click', doneTodo);
   delBtn.addEventListener('click', function () { delTodo(this) });
   updateBtn.addEventListener('click', function () { todoUpdate(label, inputBtn) });
-
-  console.log()
 
   // getLabel(listIndex)
   listIndex++;
