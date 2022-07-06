@@ -30,19 +30,19 @@ if (orgDone.length > 0) {
   getDoneList();
 }
 
-function getTodoList() {
+function getTodoList() { //새로고침 했을때 각각의 투두리스트 넣어주기
   orgTodo.forEach((item) => {
     makeTodo(item)
   });
 }
 
-function getDoneList() {
+function getDoneList() { //새로고침 했을때 각각의 완료리스트 넣어주기
   orgDone.forEach((item) => {
     makeDone(item)
   });
 }
 
-function makeDone(item) { //새로고침 했을때 완료리스트 만들기
+function makeDone(item) { //새로고침 했을때 완료항목 만들기
   let name;
   if (item === undefined || item === null) {
     name = makeBtn.value.trim();
@@ -134,12 +134,12 @@ function makeTodo(item) { //리스트 만들기
   listIndex++;
 }
 
-function saveStorage() {
+function saveStorage() { //storage에 저장
   localStorage.setItem('todos', JSON.stringify(localArr))
   localStorage.setItem('dones', JSON.stringify(doneArr))
 }
 
-function loadList(target) {
+function loadList(target) { //HTML에 뿌려줄 리스트 로드
   let arrTodos = JSON.parse(localStorage.getItem(target));
   return arrTodos || [];
 }
@@ -151,7 +151,7 @@ function delTodo(target) { //리스트 지우기
   delStorage(localArr);
   delStorage(doneArr);
 
-  function delStorage(target) {
+  function delStorage(target) { // 스토리지안에 있는 특정 요소 지우기
     for(let i = 0; i < target.length; i++) {
       if(target[i] === li.children[1].innerText)  {
         target.splice(i, 1);
