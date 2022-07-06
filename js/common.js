@@ -11,12 +11,15 @@ let orgTodo = loadList('todos');
 let orgDone = loadList('dones');
 
 makeBtn.addEventListener('keypress', function (e) {
-  if(e.key == 'Enter')  {
-    makeTodo();
+  if (e.key == 'Enter') {
+    if (localArr.includes(makeBtn.value) || doneArr.includes(makeBtn.value)) {
+    } else {
+      makeTodo();
+    }
   }
 })
 deleteAllTarget.addEventListener('click', function () { delTodoAll(listUl,'todos') })
-checkedClearBtn.addEventListener('click', function () { delTodoAll(doneUl, 'dones') })
+checkedClearBtn.addEventListener('click', function () { delTodoAll(doneUl,'dones') })
 
 if (orgTodo.length > 0) {
   getTodoList();
@@ -81,12 +84,9 @@ function makeDone(item) {
   
   checkBtn.checked = true;
   listLi.style.cssText = `color: #aaaaaa;`
-
-
-  let temp_index = listIndex;
   checkBtn.addEventListener('click', doneTodo);
   delBtn.addEventListener('click', function () { delTodo(this) });
-  updateBtn.addEventListener('click', function () { todoUpdate(label, inputBtn, temp_index) });
+  updateBtn.addEventListener('click', function () { todoUpdate(label, inputBtn) });
 
   listIndex++;
 }
@@ -129,10 +129,9 @@ function makeTodo(item) { //리스트 만들기
     listLi.appendChild(delBtn);
     listLi.appendChild(updateBtn);
   }
-  let temp_index = listIndex;
   checkBtn.addEventListener('click', doneTodo);
   delBtn.addEventListener('click', function () { delTodo(this) });
-  updateBtn.addEventListener('click', function () { todoUpdate(label, inputBtn, temp_index) });
+  updateBtn.addEventListener('click', function () { todoUpdate(label, inputBtn) });
 
   listIndex++;
 }
@@ -201,7 +200,7 @@ function doneTodo(e) { //항목 완료 처리
   saveStorage();
 }
 
-function todoUpdate(label, inputBtn, temp_index) { //리스트 수정하기
+function todoUpdate(label, inputBtn) { //리스트 수정하기
   inputBtn.id = 'updateText';
   label.before(inputBtn);
   label.remove();
@@ -212,7 +211,6 @@ function todoUpdate(label, inputBtn, temp_index) { //리스트 수정하기
       label.innerHTML = values
       inputBtn.after(label)
       inputBtn.remove();
-      localArr[temp_index] = values;
       saveStorage();
     }
   })
