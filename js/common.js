@@ -13,6 +13,8 @@ let orgDone = loadList('dones');
 makeBtn.addEventListener('keypress', function (e) {
   if (e.key == 'Enter') {
     if (localArr.includes(makeBtn.value) || doneArr.includes(makeBtn.value)) {
+      alert('중복체크');
+      return null;
     } else {
       makeTodo();
     }
@@ -56,7 +58,6 @@ function makeDone(item) {
   const label = document.createElement('label'); label.innerHTML = name; label.classList = 'listLabel';
 
   document.querySelector('#inputValue').value = null;
-  console.log(name)
 
   if (!name) {
     return null
@@ -64,8 +65,6 @@ function makeDone(item) {
     doneArr.push(name);
     addList()
   }
-
-  
 
   saveStorage();
   inValue();
@@ -84,9 +83,10 @@ function makeDone(item) {
   
   checkBtn.checked = true;
   listLi.style.cssText = `color: #aaaaaa;`
+  let temp_idx = listIndex;
   checkBtn.addEventListener('click', doneTodo);
   delBtn.addEventListener('click', function () { delTodo(this) });
-  updateBtn.addEventListener('click', function () { todoUpdate(label, inputBtn) });
+  updateBtn.addEventListener('click', function () { todoUpdate(label, inputBtn ,temp_idx) });
 
   listIndex++;
 }
@@ -129,9 +129,10 @@ function makeTodo(item) { //리스트 만들기
     listLi.appendChild(delBtn);
     listLi.appendChild(updateBtn);
   }
+  let temp_idx = listIndex;
   checkBtn.addEventListener('click', doneTodo);
   delBtn.addEventListener('click', function () { delTodo(this) });
-  updateBtn.addEventListener('click', function () { todoUpdate(label, inputBtn) });
+  updateBtn.addEventListener('click', function () { todoUpdate(label, inputBtn, temp_idx) });
 
   listIndex++;
 }
@@ -201,13 +202,28 @@ function doneTodo(e) { //항목 완료 처리
 }
 
 function todoUpdate(label, inputBtn) { //리스트 수정하기
+  const labelValue = label.innerText
   inputBtn.id = 'updateText';
   label.before(inputBtn);
   label.remove();
+
   inputBtn.addEventListener('keypress', function (e) {
     const values = inputBtn.value;
-    
+
     if (e.key == 'Enter') {
+      if (localArr.includes(label.innerText)) { //투두항목
+        localArr.filter((item,index) => {
+          if (item === labelValue) {
+            localArr[index] = values;
+          }
+        })
+      } else if (doneArr.includes(label.innerText)) { //완료항목
+        doneArr.filter((item,index) => {
+          if (item === labelValue) {
+            doneArr[index] = values;
+          }
+        })      };
+
       label.innerHTML = values
       inputBtn.after(label)
       inputBtn.remove();
