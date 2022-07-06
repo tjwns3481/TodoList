@@ -12,9 +12,8 @@ let orgDone = loadList('dones');
 
 makeBtn.addEventListener('keypress', function (e) {
   if (e.key == 'Enter') {
-    if (localArr.includes(makeBtn.value) || doneArr.includes(makeBtn.value)) {
-      alert('중복체크');
-      return null;
+    if (localArr.includes(makeBtn.value) || doneArr.includes(makeBtn.value)) { //중복된문자 생성차단
+      return false;
     } else {
       makeTodo();
     }
@@ -43,7 +42,7 @@ function getDoneList() {
   });
 }
 
-function makeDone(item) {
+function makeDone(item) { //새로고침 했을때 완료리스트 만들기
   let name;
   if (item === undefined || item === null) {
     name = makeBtn.value.trim();
@@ -83,10 +82,9 @@ function makeDone(item) {
   
   checkBtn.checked = true;
   listLi.style.cssText = `color: #aaaaaa;`
-  let temp_idx = listIndex;
   checkBtn.addEventListener('click', doneTodo);
   delBtn.addEventListener('click', function () { delTodo(this) });
-  updateBtn.addEventListener('click', function () { todoUpdate(label, inputBtn ,temp_idx) });
+  updateBtn.addEventListener('click', function () { todoUpdate(label, inputBtn) });
 
   listIndex++;
 }
@@ -129,10 +127,9 @@ function makeTodo(item) { //리스트 만들기
     listLi.appendChild(delBtn);
     listLi.appendChild(updateBtn);
   }
-  let temp_idx = listIndex;
   checkBtn.addEventListener('click', doneTodo);
   delBtn.addEventListener('click', function () { delTodo(this) });
-  updateBtn.addEventListener('click', function () { todoUpdate(label, inputBtn, temp_idx) });
+  updateBtn.addEventListener('click', function () { todoUpdate(label, inputBtn) });
 
   listIndex++;
 }
@@ -222,8 +219,8 @@ function todoUpdate(label, inputBtn) { //리스트 수정하기
           if (item === labelValue) {
             doneArr[index] = values;
           }
-        })      };
-
+        })
+      };
       label.innerHTML = values
       inputBtn.after(label)
       inputBtn.remove();
