@@ -88,7 +88,7 @@ function makeDone(item) { //새로고침 했을때 완료항목 만들기
 
   listIndex++;
 }
-
+//자바스크립트
 function makeTodo(item) { //리스트 만들기
   let name;
   if (item === undefined || item === null) {
@@ -221,8 +221,8 @@ function todoUpdate(label, inputBtn) { //리스트 수정하기
           }
         })
       };
-      label.innerHTML = values
-      inputBtn.after(label)
+      label.innerHTML = values;
+      inputBtn.after(label);
       inputBtn.remove();
       saveStorage();
     }
