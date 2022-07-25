@@ -19,8 +19,8 @@ makeBtn.addEventListener('keypress', function (e) {
     }
   }
 })
-deleteAllTarget.addEventListener('click', function () { delTodoAll(listUl,'todos') })
-checkedClearBtn.addEventListener('click', function () { delTodoAll(doneUl,'dones') })
+deleteAllTarget.addEventListener('click', function () { delTodoAll() })
+checkedClearBtn.addEventListener('click', function () { delCheckedAll() })
 
 if (orgTodo.length > 0) {
   getTodoList();
@@ -92,7 +92,7 @@ function makeDone(item) { //새로고침 했을때 완료항목 만들기
 function makeTodo(item) { //리스트 만들기
   let name;
   if (item === undefined || item === null) {
-    name = makeBtn.value.trim();
+    name = makeBtn.value;
   } else {
     name = item;
   }
@@ -162,10 +162,20 @@ function delTodo(target) { //리스트 지우기
   saveStorage();
 }
 
+function delTodoAll() { //모든 리스트 지우기
+  listUl.innerHTML = '';
+  doneUl.innerHTML = '';
+  localArr = [];
+  doneArr = [];
 
-function delTodoAll(target, StorageKey) { //모든 리스트 지우기
-  target.innerHTML = '';
-  localStorage.removeItem(StorageKey);
+  saveStorage();
+}
+
+function delCheckedAll() { //모든 체크 리스트 지우기
+  doneUl.innerHTML = '';
+  doneArr = [];
+  
+  saveStorage();
 }
 
 function doneTodo(e) { //항목 완료 처리
